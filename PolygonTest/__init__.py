@@ -1,5 +1,5 @@
-from PolygonTest.grafische_oberflaeche import GrafischeOberflaeche
+from PolygonTest.polygon_test_gui import PolygonTestGui
 
 if __name__ == '__main__':
-    grafischeOberflaeche = GrafischeOberflaeche()
-    grafischeOberflaeche.starte_grafische_benutzeroberflaeche()
+    polygonTestGui = PolygonTestGui()
+    polygonTestGui.starte_grafische_benutzeroberflaeche()

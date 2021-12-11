@@ -6,7 +6,7 @@ from PolygonTest.punkt_in_polygon_check import punkt_in_polygon_check
 from PolygonTest.validation import validate_berechnung, validate_point
 
 
-class GrafischeOberflaeche:
+class PolygonTestGui:
     polygon = Polygon()
     polygon_punkte = ""
 
