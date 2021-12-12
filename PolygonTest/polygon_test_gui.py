@@ -14,7 +14,7 @@ class PolygonTestGui:
         # Erstellt ein fenster, mit gegebener Hintergrundfarbe, Größe und Titel
         fenster = Tk()
         fenster['background'] = '#283634'
-        fenster.geometry("640x600")
+        fenster.geometry("700x700")
         fenster.title("Point in Polygon Test")
 
         self.fuege_grafische_elemente_hinzu(fenster)
@@ -56,7 +56,7 @@ class PolygonTestGui:
 
                 self.polygon.punkte.append(neuer_polygonpunkt)
                 self.polygon_punkte = self.polygon_punkte + "[" + str(neuer_polygonpunkt.x_koordinate) + "," + str(neuer_polygonpunkt.y_koordinate) + "]"
-            polygon_points.config(text=self.polygon_punkte, wraplength=500)
+            polygon_points.config(text=self.polygon_punkte, wraplength=650)
 
         def file_hochladen():
             with open("punkte.txt", "r") as file:
@@ -115,6 +115,11 @@ class PolygonTestGui:
 
         polygon_points = Label(fenster, bg="#283634")
 
+        info_label = Label(fenster, text="Info zum Fileupload: File mit den Punkten in das Verzeichnis legen.", bg="#283634")
+        info2_label = Label(fenster, text="File muss den Namen \"punkte.txt\" haben.", bg="#283634")
+        info3_label = Label(fenster, text="In der letzten Zeile des Files kein Strichpunkt.", bg="#283634")
+        schema_label = Label(fenster, text="Fileupload-Schema: P1, 66.8, 988.5;", bg="#283634")
+
         message = Label(fenster, bg="#283634")
         empty_space1 = Label(fenster, bg="#283634")
         empty_space2 = Label(fenster, bg="#283634")
@@ -153,4 +158,10 @@ class PolygonTestGui:
         berechne_button.grid(row=21)
         empty_space6.grid(row=22)
         reset_button.grid(row=23)
+
+        info_label.grid(row=24)
+        info2_label.grid(row=25)
+        info3_label.grid(row=26)
+        schema_label.grid(row=27)
+
         fenster.grid_columnconfigure(0, weight=1)
