@@ -38,6 +38,7 @@ class PolygonTestGui:
                 punkt.y_koordinate = float(y)
                 antwort, farbe = punkt_in_polygon_check(punkt, self.polygon)
                 message.config(text=antwort, bg=farbe)
+                self.polygon = Polygon()
 
         def punkt_zu_polygon_hinzufuegen():
             x = x_koordinate_polygon_punkt.get()
@@ -78,7 +79,7 @@ class PolygonTestGui:
 
         def reset():
             message.config(text="", bg="#283634")
-            self.polygon = Polygon()
+            self.polygon.punkte = []
             self.polygon_punkte = ""
             polygon_points.config(text=self.polygon_punkte, wraplength=500)
             y_koordinate_polygon_punkt.delete(0, 'end')
