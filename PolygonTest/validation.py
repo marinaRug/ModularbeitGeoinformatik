@@ -30,3 +30,16 @@ def validate_polygon(polygon):
         return False, "Geben Sie mindestens 3 Polygonpunkte an."
 
     return True, ""
+
+
+def validate_line_in_file(line, index):
+    daten = line.split(',')
+    if len(daten) < 3:
+        return False, "Nicht genug Daten in Zeile " + str(index+1)
+    if len(daten) > 3:
+        return False, "Zu viele Daten in Zeile " + str(index+1)
+    is_valid, txt = validate_point(daten[1], daten[2])
+    if not is_valid:
+        return False, txt + "in Zeile " + str(index+1)
+    return True, ""
+

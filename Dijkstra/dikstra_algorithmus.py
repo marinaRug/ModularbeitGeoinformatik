@@ -9,7 +9,7 @@ def berechne_route_nach_dijkstra(Netzwerk_Knoten_und_Kanten, startpunkt, zielpun
         while variable_fuer_vorgaenger != None:
             weg_pfad.append(variable_fuer_vorgaenger)
             variable_fuer_vorgaenger = vorgaenger.get(variable_fuer_vorgaenger, None)
-        text = str(" Länge (in Einheiten): " + str(entfernungen[zielpunkt]) + " -> Kürzester Weg: " + str(weg_pfad[::-1]))
+        text = str(" Länge (in Meter): " + str(entfernungen[zielpunkt]) + " -> Kürzester Weg: " + str(weg_pfad[::-1]))
         return text
     else:
         if not punkt_geprueft:

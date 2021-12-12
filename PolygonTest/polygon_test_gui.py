@@ -3,7 +3,7 @@ from tkinter import *
 from PolygonTest.polygon import Polygon
 from PolygonTest.punkt import Punkt
 from PolygonTest.punkt_in_polygon_check import punkt_in_polygon_check
-from PolygonTest.validation import validate_berechnung, validate_point
+from PolygonTest.validation import validate_berechnung, validate_point, validate_line_in_file
 
 
 class PolygonTestGui:
@@ -14,8 +14,8 @@ class PolygonTestGui:
         # Erstellt ein fenster, mit gegebener Hintergrundfarbe, Größe und Titel
         fenster = Tk()
         fenster['background'] = '#283634'
-        fenster.geometry("640x520")
-        fenster.title("Point in polygon check.")
+        fenster.geometry("640x600")
+        fenster.title("Point in Polygon Test")
 
         self.fuege_grafische_elemente_hinzu(fenster)
 
@@ -58,6 +58,24 @@ class PolygonTestGui:
                 self.polygon_punkte = self.polygon_punkte + "[" + str(neuer_polygonpunkt.x_koordinate) + "," + str(neuer_polygonpunkt.y_koordinate) + "]"
             polygon_points.config(text=self.polygon_punkte, wraplength=500)
 
+        def file_hochladen():
+            with open("punkte.txt", "r") as file:
+                lines = file.read().split(';')
+
+            for line in lines:
+                is_valid, text = validate_line_in_file(line, lines.index(line))
+                if not is_valid:
+                    message.config(text=text, bg="red")
+                    break
+                else:
+                    daten = line.split(',')
+                    neuer_polygonpunkt = Punkt()
+                    neuer_polygonpunkt.x_koordinate = float(daten[1])
+                    neuer_polygonpunkt.y_koordinate = float(daten[2])
+                    self.polygon.punkte.append(neuer_polygonpunkt)
+                    self.polygon_punkte = self.polygon_punkte + "[" + str(neuer_polygonpunkt.x_koordinate) + "," + str(neuer_polygonpunkt.y_koordinate) + "]"
+                    polygon_points.config(text=self.polygon_punkte, wraplength=500)
+
         def reset():
             message.config(text="", bg="#283634")
             self.polygon = Polygon()
@@ -72,23 +90,25 @@ class PolygonTestGui:
 
         # Point to check, x-coordinate
         x_koordinate = Entry(fenster, bd=5, width=20)
-        punkt_x_label = Label(fenster, text="Point: X-Coordinate", bg='#283634', fg='#F0F3EB')
+        punkt_x_label = Label(fenster, text="Punkt: X-Koordinate", bg='#283634', fg='#F0F3EB')
 
         # Point to check, y-coordinate
         y_koordinate = Entry(fenster, bd=5, width=20)
-        punkt_y_label = Label(fenster, text="Point: Y-Coordinate", bg='#283634', fg='#F0F3EB')
+        punkt_y_label = Label(fenster, text="Punkt: Y-Koordinate", bg='#283634', fg='#F0F3EB')
 
-        fill_polygon_label = Label(fenster, text="Add points to your polygon!", bg='#283634', fg='#F0F3EB')
+        fill_polygon_label = Label(fenster, text="Fügen Sie Punkte zum Polygon hinzu!", bg='#283634', fg='#F0F3EB')
 
         # Points to add to polygon
         x_koordinate_polygon_punkt = Entry(fenster, bd=5, width=20)
-        punkt_x_label_polygon_punkt = Label(fenster, text="Polygon-Point: X-Coordinate", bg='#283634', fg='#F0F3EB')
+        punkt_x_label_polygon_punkt = Label(fenster, text="Polygon-Punkt: X-Koordinate", bg='#283634', fg='#F0F3EB')
 
         # Point to check, y-coordinate
         y_koordinate_polygon_punkt = Entry(fenster, bd=5, width=20)
-        punkt_y_label_polygon_punkt = Label(fenster, text="Polygon-Point: Y-Coordinate", bg='#283634', fg='#F0F3EB')
+        punkt_y_label_polygon_punkt = Label(fenster, text="Polygon-Punkt: Y-Koordinate", bg='#283634', fg='#F0F3EB')
 
-        punkt_hinzufuegen_button = Button(fenster, text='Add to polygon', bg='#9BABA0', fg='#F0F3EB', command=punkt_zu_polygon_hinzufuegen)
+        punkt_hinzufuegen_button = Button(fenster, text='Punkt zu Polygon hinzufügen', bg='#9BABA0', fg='#F0F3EB', command=punkt_zu_polygon_hinzufuegen)
+        punkte_liste_hinzufuegen_button = Button(fenster, text='Punkteliste hinzufügen', bg='#9BABA0', fg='#F0F3EB', command=file_hochladen)
+        oder_label = Label(fenster, text="oder", bg='#283634', fg='#F0F3EB')
 
         berechne_button = Button(fenster, text='Berechne', bg='#9BABA0', fg='#F0F3EB', command=punkt_in_polygon)
         reset_button = Button(fenster, text='Reset', bg='#9BABA0', fg='#F0F3EB', command=reset)
@@ -104,7 +124,7 @@ class PolygonTestGui:
         empty_space6 = Label(fenster, bg="#283634")
 
         # Erstellt ein grid in dem die Elemente angeordnet werden
-        anweisungs_label = Label(fenster, text="Use this tool to check if a point is inside a polygon.", bg='#283634', fg='#F0F3EB')
+        anweisungs_label = Label(fenster, text="Überprüfen Sie, ob ein Punkt im Polygon liegt!", bg='#283634', fg='#F0F3EB')
 
         anweisungs_label.grid(row=0)
         message.grid(row=1)
@@ -117,18 +137,20 @@ class PolygonTestGui:
         y_koordinate_polygon_punkt.grid(row=7)
         empty_space2.grid(row=8)
         punkt_hinzufuegen_button.grid(row=9)
-        empty_space3.grid(row=10)
+        oder_label.grid(row=11)
+        punkte_liste_hinzufuegen_button.grid(row=12)
+        empty_space3.grid(row=13)
 
-        polygon_points.grid(row=11)
+        polygon_points.grid(row=14)
 
-        empty_space4.grid(row=12)
-        punkt_x_label.grid(row=13)
-        x_koordinate.grid(row=14)
-        punkt_y_label.grid(row=15)
-        y_koordinate.grid(row=16)
+        empty_space4.grid(row=15)
+        punkt_x_label.grid(row=16)
+        x_koordinate.grid(row=17)
+        punkt_y_label.grid(row=18)
+        y_koordinate.grid(row=19)
 
-        empty_space5.grid(row=17)
-        berechne_button.grid(row=18)
-        empty_space6.grid(row=19)
-        reset_button.grid(row=20)
+        empty_space5.grid(row=20)
+        berechne_button.grid(row=21)
+        empty_space6.grid(row=22)
+        reset_button.grid(row=23)
         fenster.grid_columnconfigure(0, weight=1)
