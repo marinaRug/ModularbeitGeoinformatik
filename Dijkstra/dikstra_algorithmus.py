@@ -1,8 +1,8 @@
 def berechne_route_nach_dijkstra(Netzwerk_Knoten_und_Kanten, startpunkt, zielpunkt, punkt_geprueft, entfernungen, vorgaenger):
     if startpunkt not in Netzwerk_Knoten_und_Kanten:
-        raise TypeError('Start- und/oder Zielpunkt nicht vorhanden')
+        return 'Startpunkt nicht vorhanden'
     if zielpunkt not in Netzwerk_Knoten_und_Kanten:
-        raise TypeError('Zielpunkt kann nicht gefunden werden')
+        return 'Zielpunkt nicht vorhanden'
     if startpunkt == zielpunkt:
         weg_pfad = []
         variable_fuer_vorgaenger = zielpunkt
