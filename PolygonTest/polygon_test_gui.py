@@ -17,7 +17,7 @@ class PolygonTestGui:
         fenster = Tk()
         fenster['background'] = '#283634'
         fenster.geometry("700x700")
-        fenster.title("Point in Polygon Test")
+        fenster.title("Punkt in Polygon Test")
 
         # Erstellt einen Main Frame
         main_frame = Frame(fenster)
