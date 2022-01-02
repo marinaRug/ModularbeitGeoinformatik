@@ -4,6 +4,8 @@ import os
 from Dijkstra.dikstra_algorithmus import berechne_route_nach_dijkstra
 from Dijkstra.netzwerk_knoten_und_kanten import Netzwerk_Knoten_und_Kanten
 
+WINDOW_WIDTH_HALBE = 450
+
 
 class DijkstraAlgorithmusGui:
 
@@ -11,7 +13,7 @@ class DijkstraAlgorithmusGui:
         # Erstellt ein fenster, mit gegebener Hintergrundfarbe, Größe und Titel
         fenster = Tk()
         fenster['background'] = '#283634'
-        fenster.geometry("640x950")
+        fenster.geometry("900x950")
         fenster.title("Dijkstra - Shortest Way")
 
         # Erstellt einen Main Frame
@@ -31,11 +33,11 @@ class DijkstraAlgorithmusGui:
         fenster_canvas['background'] = '#283634'
         fenster_canvas.bind('<Configure>', lambda e: fenster_canvas.configure(scrollregion=fenster_canvas.bbox("all")))
 
-        #Frame in Canvas für die Scrollbar
+        # Frame in Canvas für die Scrollbar
 
         frame = Frame(fenster_canvas)
         frame['background'] = '#283634'
-        fenster_canvas.create_window((0,0), window=frame, anchor=N)
+        fenster_canvas.create_window((WINDOW_WIDTH_HALBE, 0), window=frame, anchor=N)
 
         directory_path = os.path.dirname(__file__)
         filepath = os.path.join(directory_path, 'dijkstra_mittenwald.png')

@@ -5,6 +5,8 @@ from PolygonTest.punkt import Punkt
 from PolygonTest.punkt_in_polygon_check import punkt_in_polygon_check
 from PolygonTest.validation import validate_berechnung, validate_point, validate_line_in_file
 
+WINDOW_WIDTH_HALBE = 350
+
 
 class PolygonTestGui:
     polygon = Polygon()
@@ -17,12 +19,35 @@ class PolygonTestGui:
         fenster.geometry("700x700")
         fenster.title("Point in Polygon Test")
 
-        self.fuege_grafische_elemente_hinzu(fenster)
+        # Erstellt einen Main Frame
+        main_frame = Frame(fenster)
+        main_frame.pack(fill=BOTH, expand=1, side=TOP)
+
+        # Canvas für die scrollbar
+        fenster_canvas = Canvas(main_frame)
+        fenster_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+        # Scrollbar
+        scrollbar = Scrollbar(main_frame, orient=VERTICAL, command=fenster_canvas.yview)
+        scrollbar.pack(side=RIGHT, fill=Y)
+
+        # Canvas konfigurieren -> Scrollbar
+        fenster_canvas.configure(yscrollcommand=scrollbar.set)
+        fenster_canvas['background'] = '#283634'
+        fenster_canvas.bind('<Configure>', lambda e: fenster_canvas.configure(scrollregion=fenster_canvas.bbox("all")))
+
+        # Frame in Canvas für die Scrollbar
+
+        frame = Frame(fenster_canvas)
+        frame['background'] = '#283634'
+        fenster_canvas.create_window((WINDOW_WIDTH_HALBE, 0), window=frame, anchor=N)
+
+        self.fuege_grafische_elemente_hinzu(frame)
 
         # In der Ereignisschleife auf Eingabe des Benutzers warten.
         fenster.mainloop()
 
-    def fuege_grafische_elemente_hinzu(self, fenster):
+    def fuege_grafische_elemente_hinzu(self, frame):
         def punkt_in_polygon():
             x = x_koordinate.get()
             y = y_koordinate.get()
@@ -90,47 +115,47 @@ class PolygonTestGui:
         # Erstellt grafische Elemente die auf dem Hauptfenster angezeigt werden
 
         # Point to check, x-coordinate
-        x_koordinate = Entry(fenster, bd=5, width=20)
-        punkt_x_label = Label(fenster, text="Punkt: X-Koordinate", bg='#283634', fg='#F0F3EB')
+        x_koordinate = Entry(frame, bd=5, width=20)
+        punkt_x_label = Label(frame, text="Punkt: X-Koordinate", bg='#283634', fg='#F0F3EB')
 
         # Point to check, y-coordinate
-        y_koordinate = Entry(fenster, bd=5, width=20)
-        punkt_y_label = Label(fenster, text="Punkt: Y-Koordinate", bg='#283634', fg='#F0F3EB')
+        y_koordinate = Entry(frame, bd=5, width=20)
+        punkt_y_label = Label(frame, text="Punkt: Y-Koordinate", bg='#283634', fg='#F0F3EB')
 
-        fill_polygon_label = Label(fenster, text="Fügen Sie Punkte zum Polygon hinzu!", bg='#283634', fg='#F0F3EB')
+        fill_polygon_label = Label(frame, text="Fügen Sie Punkte zum Polygon hinzu!", bg='#283634', fg='#F0F3EB')
 
         # Points to add to polygon
-        x_koordinate_polygon_punkt = Entry(fenster, bd=5, width=20)
-        punkt_x_label_polygon_punkt = Label(fenster, text="Polygon-Punkt: X-Koordinate", bg='#283634', fg='#F0F3EB')
+        x_koordinate_polygon_punkt = Entry(frame, bd=5, width=20)
+        punkt_x_label_polygon_punkt = Label(frame, text="Polygon-Punkt: X-Koordinate", bg='#283634', fg='#F0F3EB')
 
         # Point to check, y-coordinate
-        y_koordinate_polygon_punkt = Entry(fenster, bd=5, width=20)
-        punkt_y_label_polygon_punkt = Label(fenster, text="Polygon-Punkt: Y-Koordinate", bg='#283634', fg='#F0F3EB')
+        y_koordinate_polygon_punkt = Entry(frame, bd=5, width=20)
+        punkt_y_label_polygon_punkt = Label(frame, text="Polygon-Punkt: Y-Koordinate", bg='#283634', fg='#F0F3EB')
 
-        punkt_hinzufuegen_button = Button(fenster, text='Punkt zu Polygon hinzufügen', bg='#9BABA0', fg='#F0F3EB', command=punkt_zu_polygon_hinzufuegen)
-        punkte_liste_hinzufuegen_button = Button(fenster, text='Punkteliste hinzufügen', bg='#9BABA0', fg='#F0F3EB', command=file_hochladen)
-        oder_label = Label(fenster, text="oder", bg='#283634', fg='#F0F3EB')
+        punkt_hinzufuegen_button = Button(frame, text='Punkt zu Polygon hinzufügen', bg='#9BABA0', fg='#F0F3EB', command=punkt_zu_polygon_hinzufuegen)
+        punkte_liste_hinzufuegen_button = Button(frame, text='Punkteliste hinzufügen', bg='#9BABA0', fg='#F0F3EB', command=file_hochladen)
+        oder_label = Label(frame, text="oder", bg='#283634', fg='#F0F3EB')
 
-        berechne_button = Button(fenster, text='Berechne', bg='#9BABA0', fg='#F0F3EB', command=punkt_in_polygon)
-        reset_button = Button(fenster, text='Reset', bg='#9BABA0', fg='#F0F3EB', command=reset)
+        berechne_button = Button(frame, text='Berechne', bg='#9BABA0', fg='#F0F3EB', command=punkt_in_polygon)
+        reset_button = Button(frame, text='Reset', bg='#9BABA0', fg='#F0F3EB', command=reset)
 
-        polygon_points = Label(fenster, bg="#283634")
+        polygon_points = Label(frame, bg="#283634")
 
-        info_label = Label(fenster, text="Info zum Fileupload: File mit den Punkten in das Verzeichnis legen.", bg="#283634")
-        info2_label = Label(fenster, text="File muss den Namen \"punkte.txt\" haben.", bg="#283634")
-        info3_label = Label(fenster, text="In der letzten Zeile des Files kein Strichpunkt.", bg="#283634")
-        schema_label = Label(fenster, text="Fileupload-Schema: P1, 66.8, 988.5;", bg="#283634")
+        info_label = Label(frame, text="Info zum Fileupload: File mit den Punkten in das Verzeichnis legen.", bg="#283634", fg='#F0F3EB')
+        info2_label = Label(frame, text="File muss den Namen \"punkte.txt\" haben.", bg="#283634", fg='#F0F3EB')
+        info3_label = Label(frame, text="In der letzten Zeile des Files kein Strichpunkt.", bg="#283634", fg='#F0F3EB')
+        schema_label = Label(frame, text="Fileupload-Schema: P1, 66.8, 988.5;", bg="#283634", fg='#F0F3EB')
 
-        message = Label(fenster, bg="#283634")
-        empty_space1 = Label(fenster, bg="#283634")
-        empty_space2 = Label(fenster, bg="#283634")
-        empty_space3 = Label(fenster, bg="#283634")
-        empty_space4 = Label(fenster, bg="#283634")
-        empty_space5 = Label(fenster, bg="#283634")
-        empty_space6 = Label(fenster, bg="#283634")
+        message = Label(frame, bg="#283634")
+        empty_space1 = Label(frame, bg="#283634")
+        empty_space2 = Label(frame, bg="#283634")
+        empty_space3 = Label(frame, bg="#283634")
+        empty_space4 = Label(frame, bg="#283634")
+        empty_space5 = Label(frame, bg="#283634")
+        empty_space6 = Label(frame, bg="#283634")
 
         # Erstellt ein grid in dem die Elemente angeordnet werden
-        anweisungs_label = Label(fenster, text="Überprüfen Sie, ob ein Punkt im Polygon liegt!", bg='#283634', fg='#F0F3EB')
+        anweisungs_label = Label(frame, text="Überprüfen Sie, ob ein Punkt im Polygon liegt!", bg='#283634', fg='#F0F3EB')
 
         anweisungs_label.grid(row=0)
         message.grid(row=1)
@@ -165,4 +190,4 @@ class PolygonTestGui:
         info3_label.grid(row=26)
         schema_label.grid(row=27)
 
-        fenster.grid_columnconfigure(0, weight=1)
+        frame.grid_columnconfigure(0, weight=1)
