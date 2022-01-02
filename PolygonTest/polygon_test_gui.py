@@ -9,7 +9,7 @@ WINDOW_WIDTH_HALBE = 350
 
 
 class PolygonTestGui:
-    polygon = Polygon()
+    polygon = Polygon([])
     polygon_punkte = ""
 
     def starte_grafische_benutzeroberflaeche(self):
@@ -58,12 +58,9 @@ class PolygonTestGui:
             if not is_valid:
                 message.config(text=text, bg="red")
             else:
-                punkt = Punkt()
-                punkt.x_koordinate = float(x)
-                punkt.y_koordinate = float(y)
+                punkt = Punkt(float(x), float(y))
                 antwort, farbe = punkt_in_polygon_check(punkt, self.polygon)
                 message.config(text=antwort, bg=farbe)
-                self.polygon = Polygon()
 
         def punkt_zu_polygon_hinzufuegen():
             x = x_koordinate_polygon_punkt.get()
@@ -76,9 +73,7 @@ class PolygonTestGui:
                 message.config(text=text, bg="red")
             else:
                 message.config(text="", bg="#283634")
-                neuer_polygonpunkt = Punkt()
-                neuer_polygonpunkt.x_koordinate = float(x)
-                neuer_polygonpunkt.y_koordinate = float(y)
+                neuer_polygonpunkt = Punkt(float(x), float(y))
 
                 self.polygon.punkte.append(neuer_polygonpunkt)
                 self.polygon_punkte = self.polygon_punkte + "[" + str(neuer_polygonpunkt.x_koordinate) + "," + str(neuer_polygonpunkt.y_koordinate) + "]"
@@ -95,9 +90,7 @@ class PolygonTestGui:
                     break
                 else:
                     daten = line.split(',')
-                    neuer_polygonpunkt = Punkt()
-                    neuer_polygonpunkt.x_koordinate = float(daten[1])
-                    neuer_polygonpunkt.y_koordinate = float(daten[2])
+                    neuer_polygonpunkt = Punkt(float(daten[1]), float(daten[2]))
                     self.polygon.punkte.append(neuer_polygonpunkt)
                     self.polygon_punkte = self.polygon_punkte + "[" + str(neuer_polygonpunkt.x_koordinate) + "," + str(neuer_polygonpunkt.y_koordinate) + "]"
                     polygon_points.config(text=self.polygon_punkte, wraplength=500)

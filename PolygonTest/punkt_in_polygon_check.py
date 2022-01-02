@@ -2,7 +2,7 @@ from PolygonTest.polygon import Polygon
 from PolygonTest.punkt import Punkt
 
 
-def punkt_in_polygon_check(punkt: Punkt, polygon: Polygon()):
+def punkt_in_polygon_check(punkt: Punkt, polygon: Polygon):
     # polygon = [(2, 1), (2, 3), (3, 4), (5, 4), (5, 2), (4,1)]
     # point = [3, 2]
 

@@ -4,4 +4,6 @@ from PolygonTest.punkt import Punkt
 
 
 class Polygon:
-    punkte: List[Punkt] = []
+
+    def __init__(self, punkte: List[Punkt]):
+        self.punkte = punkte
