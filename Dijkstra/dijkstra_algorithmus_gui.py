@@ -41,7 +41,7 @@ class DijkstraAlgorithmusGui:
 
         directory_path = os.path.dirname(__file__)
         filepath = os.path.join(directory_path, 'dijkstra_mittenwald.png')
-        canvas = Canvas(frame, width=625, height=400)
+        canvas = Canvas(frame, width=688, height=460)
         canvas.pack()
         img = PhotoImage(file=filepath)
         canvas.create_image(0, 0, anchor=NW, image=img)
