@@ -1,8 +1,13 @@
 def berechne_route_nach_dijkstra(Netzwerk_Knoten_und_Kanten, startpunkt, zielpunkt, punkt_geprueft, entfernungen, vorgaenger):
+    # Zuerst werden die Nutzer-Eingaben überprüft und gegebenenfalls ein Text herausgegeben
+
     if startpunkt not in Netzwerk_Knoten_und_Kanten:
         return 'Startpunkt nicht vorhanden - Bitte geben Sie P gefolgt von einer Zahl zwischen 1 und 14 ein.'
     if zielpunkt not in Netzwerk_Knoten_und_Kanten:
         return 'Zielpunkt nicht vorhanden - Bitte geben Sie P gefolgt von einer Zahl zwischen 1 und 14 ein.'
+
+    # Wenn alle Eingaben korrekt sind, kann der kürzeste Weg berechnet werden
+    # Der Algorithmus wurde aus den Kursunterlagen übernommen
     if startpunkt == zielpunkt:
         weg_pfad = []
         variable_fuer_vorgaenger = zielpunkt

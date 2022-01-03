@@ -1,3 +1,7 @@
+# Das ist das Netzwerk, dass ich erstellt habe. Es besteht aus 14 Knoten, die sich in
+# meinem Gebiet in Mittenwald befinden.
+# Die Strecken sind auf ganze Meter gerundet
+
 Netzwerk_Knoten_und_Kanten = {
     'P1': {'P2': 131, 'P14': 249},
     'P2': {'P1': 131, 'P3': 254},

@@ -34,11 +34,11 @@ class DijkstraAlgorithmusGui:
         fenster_canvas.bind('<Configure>', lambda e: fenster_canvas.configure(scrollregion=fenster_canvas.bbox("all")))
 
         # Frame in Canvas für die Scrollbar
-
         frame = Frame(fenster_canvas)
         frame['background'] = '#283634'
         fenster_canvas.create_window((WINDOW_WIDTH_HALBE, 0), window=frame, anchor=N)
 
+        # Fügt das Bild am Anfang ein
         directory_path = os.path.dirname(__file__)
         filepath = os.path.join(directory_path, 'dijkstra_mittenwald.png')
         canvas = Canvas(frame, width=600, height=400)
@@ -52,7 +52,16 @@ class DijkstraAlgorithmusGui:
         fenster.mainloop()
 
     def fuege_grafische_elemente_hinzu(self, frame):
+
+        # In dieser Methode werden die grafischen Elemente zu dem Fenster hinzugefügt.
+        # Da in TKinter die Scrollbar eigentlich nur für einzelne Elemente, wie ein Textfeld oder ein Vanvas gemacht ist
+        # werden die Buttons und Labels nicht direkt in das Hauptfenster gesetzt, sondern in einen Frame, der
+        # ein neues Fenster erstellt und sich innerhalb eines Canvas befindet.
+
         def kuerzester_weg_berechnung():
+
+            # Diese Methode gibt die Parameter, die aus dem Netzwerk (Knoten und Kanten) und aus dem User-Input
+            # kommen weiter an den Algorithmus, der dann den kürzesten Weg berechnet
             netzwerk = Netzwerk_Knoten_und_Kanten
             start = startpunkt.get()
             ziel = zielpunkt.get()
@@ -60,6 +69,7 @@ class DijkstraAlgorithmusGui:
             text = berechne_route_nach_dijkstra(netzwerk, start, ziel, [], {}, {})
             ergebnis.config(text=text)
 
+        # Hier werden die grafischen Elemente wie Labels und Buttons erstellt
         label1 = Label(frame, text="Koordinaten:", bg='#283634', fg='#F0F3EB')
 
         punkt1 = Label(frame, text="P1: [670801.50, 5256604.50]", bg='#283634', fg='#F0F3EB')
@@ -88,6 +98,7 @@ class DijkstraAlgorithmusGui:
         empty_space2 = Label(frame, bg="#283634")
         empty_space3 = Label(frame, bg="#283634")
 
+        # Hier werden die grafischen Elemente auf das Fenster gepackt
         label1.pack()
         punkt1.pack()
         punkt2.pack()

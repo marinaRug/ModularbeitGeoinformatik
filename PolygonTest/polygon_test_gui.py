@@ -48,7 +48,15 @@ class PolygonTestGui:
         fenster.mainloop()
 
     def fuege_grafische_elemente_hinzu(self, frame):
+        # In dieser Methode werden die grafischen Elemente zu dem Fenster hinzugefügt.
+        # Da in TKinter die Scrollbar eigentlich nur für einzelne Elemente, wie ein Textfeld oder ein Vanvas gemacht ist
+        # werden die Buttons und Labels nicht direkt in das Hauptfenster gesetzt, sondern in einen Frame, der
+        # ein neues Fenster erstellt und sich innerhalb eines Canvas befindet.
+
         def punkt_in_polygon():
+            # Hier werden die Koordinaten der Punkte aus dem User-Input genommen, validiert und anschließend
+            # weiter geleitet um anschließend die Berechnung durchzuführen
+
             x = x_koordinate.get()
             y = y_koordinate.get()
             x = x.replace(',', '.')
@@ -63,6 +71,9 @@ class PolygonTestGui:
                 message.config(text=antwort, bg=farbe)
 
         def punkt_zu_polygon_hinzufuegen():
+            # In dieser Methode werden die Koordinaten des User-Inputs genommen um die einzelnen Punkte zu dem
+            # Polygon hinzuzufügen. Auch diese werden zunächst validiert
+
             x = x_koordinate_polygon_punkt.get()
             y = y_koordinate_polygon_punkt.get()
             x = x.replace(',', '.')
@@ -80,22 +91,31 @@ class PolygonTestGui:
             polygon_points.config(text=self.polygon_punkte, wraplength=650)
 
         def file_hochladen():
-            with open("punkte.txt", "r") as file:
-                lines = file.read().split(';')
+            # Diese Methode ermöglicht es ein File nach vorgegebenem Schema hochzuladen
+            # Eine fertige Datei liegt allerdings schon im Ordner PolygonTest
+            # Falls keine Datei gefunden wird, wird die Message "Keine Datei gedunden." angezeigt
 
-            for line in lines:
-                is_valid, text = validate_line_in_file(line, lines.index(line))
-                if not is_valid:
-                    message.config(text=text, bg="red")
-                    break
-                else:
-                    daten = line.split(',')
-                    neuer_polygonpunkt = Punkt(float(daten[1]), float(daten[2]))
-                    self.polygon.punkte.append(neuer_polygonpunkt)
-                    self.polygon_punkte = self.polygon_punkte + "[" + str(neuer_polygonpunkt.x_koordinate) + "," + str(neuer_polygonpunkt.y_koordinate) + "]"
-                    polygon_points.config(text=self.polygon_punkte, wraplength=500)
+            try:
+                with open("punkte.txt", "r") as file:
+                    lines = file.read().split(';')
 
+                for line in lines:
+                    is_valid, text = validate_line_in_file(line, lines.index(line))
+                    if not is_valid:
+                        message.config(text=text, bg="red")
+                        break
+                    else:
+                        daten = line.split(',')
+                        neuer_polygonpunkt = Punkt(float(daten[1]), float(daten[2]))
+                        self.polygon.punkte.append(neuer_polygonpunkt)
+                        self.polygon_punkte = self.polygon_punkte + "[" + str(neuer_polygonpunkt.x_koordinate) + "," + str(neuer_polygonpunkt.y_koordinate) + "]"
+                        polygon_points.config(text=self.polygon_punkte, wraplength=500)
+            except FileNotFoundError:
+                message.config(text="Keine Datei gefunden.", bg="red")
         def reset():
+            # Damit der User die Anwendung nicht neu starten muss, wenn er ein neues Polygon testen will, gibt es
+            # diese reset-Funktion. Diese setzt sowohl das Polygon, als auch den Punkt zum testen zurück.
+
             message.config(text="", bg="#283634")
             self.polygon.punkte = []
             self.polygon_punkte = ""
@@ -134,7 +154,7 @@ class PolygonTestGui:
 
         polygon_points = Label(frame, bg="#283634")
 
-        info_label = Label(frame, text="Info zum Fileupload: File mit den Punkten in das Verzeichnis legen.", bg="#283634", fg='#F0F3EB')
+        info_label = Label(frame, text="Info zum Fileupload: File mit den Punkten in den Ordner \"PolygonTest\" legen.", bg="#283634", fg='#F0F3EB')
         info2_label = Label(frame, text="File muss den Namen \"punkte.txt\" haben.", bg="#283634", fg='#F0F3EB')
         info3_label = Label(frame, text="In der letzten Zeile des Files kein Strichpunkt.", bg="#283634", fg='#F0F3EB')
         schema_label = Label(frame, text="Fileupload-Schema: P1, 66.8, 988.5;", bg="#283634", fg='#F0F3EB')
